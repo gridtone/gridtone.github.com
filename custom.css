@@ -1,0 +1,39 @@
+body{
+	font: 10pt helvetica;
+	background: black;
+	color:#ccc;
+} 
+a{color: #5BA03C;}
+a:hover{color: green;}
+h2,h3{color:#76a3e3;}
+div.grid {
+	border-left: 1px solid #333 ;
+	border-top: 1px solid #333 ;
+	background: #111;
+	cursor: pointer ;		
+	height: 47px ;
+	position: absolute ;
+	width: 47px ;
+	z-index: 100 ;
+	color:#ccc;
+}
+div.grid:hover{
+	background-color:#222;
+}
+
+#wrapper{
+	width:100%;
+	margin:auto;
+	position:relative;
+}
+
+#debug{
+	color:white;
+	width:500px;
+	height:500px;
+	position:absolute;
+	overflow:auto;
+}
+#disqus_thread{
+	position:relative;
+}

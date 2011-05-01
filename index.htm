@@ -1,0 +1,129 @@
+<html>
+<head>
+	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js'></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+	<script src='js/soundmanager2-jsmin.js'></script>
+	<script src='js/custom.js'></script>	
+	<link rel="stylesheet" type="text/css" href="custom.css">
+</head>
+<body>
+	<div style='width:600px;margin:auto;'>
+		<div>
+			<h3>
+				<a href='.'>GridTone</a> |
+				<a href='#gt'>Demo</a> |
+				<a href='http://github.com/r3yzor/tune' target='_new'>Source on GitHub</a>
+			</h3>
+		</div>		
+		<p>
+		GridTone is a 99% HTML5/javscript generative sound instrument.<br> 
+		A total of 24 notes from middle C plus one full octave make up the [current] sound library.	
+		</p>		
+		<h3>Instructions</h3>
+		<ol>
+			<li>Click squares on the <a href='#gt'>grid</a>.</li>
+			<li>Push Start.</li>
+			<li>Push Save to share the URL to your creation.</li>
+		</ol>
+		<h3>Samples</h3>
+		<ol>
+			<li><a href='?size=9&scale=hang&speed=225&echo=true&grid=2_5:3,2_3:3,5_0:1,5_2:3'>Hang 1</a> - the most simple, yet my favorite.</li>
+			<li><a href='?size=9&scale=hang&speed=200&echo=true&grid=4_1:1,4_8:3,8_7:2,4_4:3,4_1:3,0_7:4'>Hang 2</a> - visually pleasing.</li>
+			<li><a href='?size=9&scale=hang&speed=240&echo=true&grid=4_1:4,6_1:2,7_1:2,6_3:2,3_3:1,1_4:4,4_4:3,4_5:3,6_8:4'>Hang 3</a> - random complexity turned out better than expected.</li>
+			<li><a href='?size=9&scale=hang&speed=225&echo=true&grid=8_7:2,1_5:2,6_5:1,6_2:1,0_7:4,5_5:2'>Hang 4</a> - this one evolves... it's weird.</li>
+			<li><a href='?size=6&scale=min&speed=200&echo=true&grid=0_1:4,2_1:4,1_1:2,3_1:2'>Minor Scale</a> - wanted to make sure you saw how the parameters change the dynamics.</li>
+			<li><a href='?size=9&scale=maj&speed=225&echo=true&grid=4_2:1,3_3:1,2_2:1,3_1:3'>Major Scale</a> - another variation</li>
+		</ol>
+		* <a href='http://en.wikipedia.org/wiki/Hang_(musical_instrument)' target='_new'>Integral Hang Drum</a>
+		<h3>Cellular Automatation</h3>
+		<p>The instrument follows these basic set of rules: 
+			<br>
+			<ul>
+				<li>For each grid block a note is assigned.</li>
+				<li>Blocks travel in the direction shown with the arrow and when they hit a wall, they play the note on the grid block.</li>
+				<li>When a block collides with another block, they rotate and continue on.</li> 
+				<li>Speed is determined by the step input in milliseconds. Higher value means longer delay between steps.</li>
+			</ul>
+		</p>				
+
+		<h3>Advanced</h3>
+		<ul>
+			<li><b>Size</b> - Determines the size of the grid. Numbers only. Changes take effect after you press rebuild.</li>
+			<li><b>Scale</b> - Will modify the notes played on the grid to match the musical scale selected.</li>
+			<li><b>Step</b> - Delay between steps. Numbers only. In milliseconds, so higher number = longer delay.</li>
+			<li><b>Echoplex</b> - Will add an echo to the sound giving it an ethereal sound. The delay in echoes is timed to the 'step' parameter.</li>
+			<li><b>Debug</b> - Shows notes on grid and current activity to the right of grid.</li>			
+		</ul>
+		Patterns will emerge and they may take 15 seconds to appear or an hour. The patterns will always repeat, eventually. 		
+		
+		<h3>Inspiration</h3>
+		I saw this site <a href='http://www.earslap.com/links/otomata-online-generative-music-instrument' target='_new'>http://www.earslap.com/links/otomata-online-generative-music-instrument</a> off of 
+		<a href='http://reddit.com' target='_new'>http://reddit.com</a> the other day and wanted to see how it worked. 
+		The author did not release any source code, just some rules. So I wrote my own, in javascript, and I expanded on it a bit, with adjustable grid size, step count and scale. Enjoy.
+		
+		<h3>Gripes</h3>
+		<ul>
+			<li>It's 99% javascript because HTML5 &lt;audio&gt; architects should be drawn and quartered. HTML5 will never replace flash until they figure this giant, gaping, design-flaw out. It seems that 
+			the audio tag was only designed for streaming songs and not for, oh... I don't know... sound effects. I'm sure you will by now have noticed the clicks and pops. Right?
+			That's not my audio, it's something else. <a href='http://www.schillmania.com/projects/soundmanager2/' target='_new'>Soundmanager2</a> is what I am using for the sound generation, 
+			but although it has done a great job, it uses flash and I think that right now, pure flash will win.</li>
+			<li>IE engineers write stuff like they are from another dimension. I hate to have an early 90's throwback of 'this works best in {insert crappy browser here}', 
+			but IE guys make this a reality even today. Lynx works better than IE (thick on the sarcasm).
+			<br><b>Just plain doesn't work on Internet Explorer.</b>
+			</li>
+		</ul>
+		<a name='gt'></a>
+		<div id='license'>
+			<h3>License</h3>
+			<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/" target='_new'><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a><br />
+			GridTone is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/" target='_new'>Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.	
+		</div>
+		<p><div>Contact me at <a href='mailto:santa@iblunk.com'>santa@iblunk.com</a></div></p>
+	
+		<div style='clear:both'>
+			<hr>			
+			<h2>GridTone</h2>
+			Size: <input size='5' style='text-align:right' type='text' id='size'/>		
+			<button id='rebuild'>Rebuild</button>
+			Select Scale: <select id='scale'>		
+				<option value='hang'>Integral Hang</option>
+				<option value='maj'>Major</option>	
+				<option value='min'>Minor</option>					
+				<option value='all'>All</option>
+			</select>		
+			<br>
+			Step: <input size='5' style='text-align:right' type='text' id='speed'/> (in milliseconds)
+			<input type='checkbox' id='echo' checked />	<label for='echo'>Echoplex?</label>  
+			<br>
+			<button id='start'>Start</button>
+			<button id='clear'>Clear</button>
+			<button id='save'>Save</button>
+			<label for='doLog'>Debug?</label> <input type='checkbox' id='doLog' />	
+			<br>
+			<p></p>
+			<div id='url'></div>
+			<p></p>
+			<div id="wrapper" style='text-align:center;width:99%'>		
+				<div id="mainGrid" ></div>
+				<div id='debug'></div>				
+			</div>			
+		</div>		
+		<div id="disqus_thread"></div>
+		<div id='disqus_link'><a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a></div>
+	</div>	
+		
+	<script type="text/javascript">
+		var disqus_shortname = 'gridtone';
+		var disqus_identifier = 'gridtone_12345';
+		var disqus_url = 'http://iblunk.com/tune';
+
+		/* * * DON'T EDIT BELOW THIS LINE * * */
+		(function() {
+			var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+			dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+		})();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>	
+</body>
+</html>

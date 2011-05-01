@@ -1,0 +1,16 @@
+GridTone is a 99% HTML5/javscript generative sound instrument.<br> 
+A total of 24 notes from middle C plus one full octave make up the [current] sound library.
+
+<h3>Cellular Automatation</h3>
+<p>The instrument follows these basic set of rules: 
+	<br>
+	<ul>
+		<li>For each grid block a note is assigned.</li>
+		<li>Blocks travel in the direction shown with the arrow and when they hit a wall, they play the note on the grid block.</li>
+		<li>When a block collides with another block, they rotate and continue on.</li> 
+		<li>Speed is determined by the step input in milliseconds. Higher value means longer delay between steps.</li>
+	</ul>
+</p>
+
+This project aims to get the same 'instrument' to render in HTML5 and only use flash for enabled browsers. It would also be interesting to explore
+how far the project can be expanded.
