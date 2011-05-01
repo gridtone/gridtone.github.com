@@ -99,7 +99,7 @@
 				createBlock(xy[0], xy[1], obj[1]);
 			}
 			origBlocks = blocks;
-			location.href='#mTone';
+			location.href='#gt';
 		}
 	}
 	
