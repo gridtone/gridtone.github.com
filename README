@@ -7,5 +7,4 @@ The instrument follows these basic set of rules:
  * When a block collides with another block, they rotate and continue on.
  * Speed is determined by the step input in milliseconds. Higher value means longer delay between steps.
 
-This project aims to get the same 'instrument' to render in HTML5 and only use flash for enabled browsers. It would also be interesting to explore
-how far the project can be expanded.
+This project aims to get the same 'instrument' that earslap.com has but to render it in HTML5 and only use flash for enabled browsers. It would also be interesting to explore how far the project can be expanded.
