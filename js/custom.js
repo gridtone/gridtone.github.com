@@ -203,8 +203,6 @@
 			}			 
 		}
 		$('#debug').css('left', size*40);
-		$('#disqus_thread').css('top', size*60+'px');		
-		$('#disqus_link').appendTo($('#disqus_thread'));
 	};			
 	
 	//primary block object
