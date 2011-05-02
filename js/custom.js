@@ -8,7 +8,12 @@
 		else if(scale=='min'){return ['C1','D1','Eb1','F1','G1','Ab1', 'Bb1','C2', 'D2', 'Eb2', 'F2', 'G2', 'Ab2', 'Bb2'];}
 		else if(scale=='all'){return ['C1', 'Db1', 'D1', 'Eb1', 'E1', 'F1', 'Gb1', 'G1', 'Ab1', 'A1', 'Bb1', 'B1', 'C2', 'Db2', 'D2', 'Eb2', 'E2', 'F2', 'Gb2', 'G2', 'Ab2', 'A2', 'Bb2', 'B2']}
 		else {return DEFAULT_NOTES;}
-	}		
+	}	
+
+	var Note = function(note){
+		this.note = note;
+		this.soundObj = null;
+	}
 	
 	var DEFAULT = 0;
 	var UP = 1;
@@ -82,7 +87,7 @@
 			start();
 		});
 		$('#soundbank').change(function(){
-			changeSounds();
+			changeSounds('true');
 		});
 	});
 	
@@ -474,7 +479,7 @@
 		}
 	}	
 	function playTone(obj){	
-		var note = eval(obj.attr("note"));
+		var note = getSoundObj(obj.attr("note"));
 		var soundPan = 0;
 		var vol = 100;
 		//get the id of the object which will tell me the x,y coord.
@@ -496,13 +501,14 @@
 		log(soundPan+':'+vol);
 	}
 	
-	//hold reference to timeouts, so they can be killed later if needed.
+	//hold reference to timeouts, so they can be killed later if they have been bad.
 	var timeouts = [];
 	function playEcho(noteObj, soundPan, vol){		
 		var speed = $('#speed').val();
-		timeouts.push(setTimeout(function(){triggerSound(noteObj,soundPan, Math.floor(vol/4))}, speed*5));
-		timeouts.push(setTimeout(function(){triggerSound(noteObj,soundPan, Math.floor(vol/8))}, speed*10));
-		timeouts.push(setTimeout(function(){triggerSound(noteObj,soundPan, Math.floor(vol/16))}, speed*15));
+		timeouts.push(setTimeout(function(){triggerSound(noteObj,soundPan, Math.floor(vol/4))}, speed*2));
+		timeouts.push(setTimeout(function(){triggerSound(noteObj,soundPan, Math.floor(vol/8))}, speed*4));
+		timeouts.push(setTimeout(function(){triggerSound(noteObj,soundPan, Math.floor(vol/16))}, speed*6));
+		timeouts.push(setTimeout(function(){triggerSound(noteObj,soundPan, Math.floor(vol/32))}, speed*10));
 	}
 	
 	function triggerSound(note, soundPan, vol){		
@@ -515,6 +521,14 @@
 		}
 	}
 
+	function getSoundObj(note){
+		for(var i in sounds){
+			if(sounds[i].note==note){
+				return sounds[i].soundObj;
+			}
+		}
+	}
+	
 	// setup the soundManager object
 	soundManager.url = 'swf/'
 	soundManager.debugMode = false;
@@ -522,123 +536,74 @@
 	soundManager.flashVersion = 9;
 	//soundManager.useHTML5Audio = true;
 	//middle c plus one full octave
-	var C1, Db1, D1, Eb1, E1, F1, Gb1, G1, Ab1, A1, Bb1, B1, C2, Db2, D2, Eb2, E2, F2, Gb2, G2, Ab2, A2, Bb2, B2;
-	var sounds = [C1, Db1, D1, Eb1, E1, F1, Gb1, G1, Ab1, A1, Bb1, B1, C2, Db2, D2, Eb2, E2, F2, Gb2, G2, Ab2, A2, Bb2, B2];
-	
-	soundManager.onready(function() {		
-		 C1 	= soundManager.createSound({id: 'C1',	url: 'mp3s/piccata/1-toy_pizzicato.wav-().mp3'});
-		 Db1	= soundManager.createSound({id: 'Db1',	url: 'mp3s/piccata/2-toy_pizzicato.wav-().mp3'});
-		 D1 	= soundManager.createSound({id: 'D1',	url: 'mp3s/piccata/3-toy_pizzicato.wav-().mp3'});
-		 Eb1	= soundManager.createSound({id: 'Eb1',	url: 'mp3s/piccata/4-toy_pizzicato.wav-().mp3'});
-		 E1 	= soundManager.createSound({id: 'E1',	url: 'mp3s/piccata/5-toy_pizzicato.wav-().mp3'});
-		 F1 	= soundManager.createSound({id: 'F1',	url: 'mp3s/piccata/6-toy_pizzicato.wav-().mp3'});
-		 Gb1	= soundManager.createSound({id: 'Gb1',	url: 'mp3s/piccata/7-toy_pizzicato.wav-().mp3'});
-		 G1 	= soundManager.createSound({id: 'G1',	url: 'mp3s/piccata/8-toy_pizzicato.wav-().mp3'});
-		 Ab1	= soundManager.createSound({id: 'Ab1',	url: 'mp3s/piccata/9-toy_pizzicato.wav-().mp3'});
-		 A1 	= soundManager.createSound({id: 'A1',	url: 'mp3s/piccata/10-toy_pizzicato.wav-().mp3'});
-		 Bb1 	= soundManager.createSound({id: 'Bb1',	url: 'mp3s/piccata/11-toy_pizzicato.wav-().mp3'});
-		 B1  	= soundManager.createSound({id: 'B1',	url: 'mp3s/piccata/12-toy_pizzicato.wav-().mp3'});
-		 C2  	= soundManager.createSound({id: 'C2',	url: 'mp3s/piccata/13-toy_pizzicato.wav-().mp3'});
-		 Db2 	= soundManager.createSound({id: 'Db2',	url: 'mp3s/piccata/14-toy_pizzicato.wav-().mp3'});
-		 D2  	= soundManager.createSound({id: 'D2',	url: 'mp3s/piccata/15-toy_pizzicato.wav-().mp3'});
-		 Eb2 	= soundManager.createSound({id: 'Eb2',	url: 'mp3s/piccata/16-toy_pizzicato.wav-().mp3'});
-		 E2  	= soundManager.createSound({id: 'E2',	url: 'mp3s/piccata/17-toy_pizzicato.wav-().mp3'});
-		 F2  	= soundManager.createSound({id: 'F2',	url: 'mp3s/piccata/18-toy_pizzicato.wav-().mp3'});
-		 Gb2 	= soundManager.createSound({id: 'Gb2',	url: 'mp3s/piccata/19-toy_pizzicato.wav-().mp3'});
-		 G2  	= soundManager.createSound({id: 'G2',	url: 'mp3s/piccata/20-toy_pizzicato.wav-().mp3'});
-		 Ab2 	= soundManager.createSound({id: 'Ab2',	url: 'mp3s/piccata/21-toy_pizzicato.wav-().mp3'});
-		 A2  	= soundManager.createSound({id: 'A2',	url: 'mp3s/piccata/22-toy_pizzicato.wav-().mp3'});
-		 Bb2 	= soundManager.createSound({id: 'Bb2',	url: 'mp3s/piccata/23-toy_pizzicato.wav-().mp3'});
-		 B2  	= soundManager.createSound({id: 'B2',	url: 'mp3s/piccata/24-toy_pizzicato.wav-().mp3'});
-		 sounds = [C1, Db1, D1, Eb1, E1, F1, Gb1, G1, Ab1, A1, Bb1, B1, C2, Db2, D2, Eb2, E2, F2, Gb2, G2, Ab2, A2, Bb2, B2];
+	var sounds = [
+		new Note('C1'),
+		new Note('Db1'),
+		new Note('D1'),
+		new Note('Eb1'),
+		new Note('E1'),
+		new Note('F1'),
+		new Note('Gb1'),
+		new Note('G1'),
+		new Note('Ab1'),
+		new Note('A1'),
+		new Note('Bb1'),
+		new Note('B1'),
+		new Note('C2'),
+		new Note('Db2'),
+		new Note('D2'),
+		new Note('Eb2'),
+		new Note('E2'),
+		new Note('F2'),
+		new Note('Gb2'),
+		new Note('G2'),
+		new Note('Ab2'),
+		new Note('A2'),
+		new Note('Bb2'),
+		new Note('B2')
+	];
+	soundManager.onready(function() {	
+		changeSounds();
 	});
 	
 	
-	function changeSounds(){
+	function changeSounds(doStart){
 		var soundbank = $('#soundbank').val();
 		stop();
 		//remove all the old sounds
 		for(var i in sounds){
-			eval(sounds[i]).destruct();
-		}		
-		
-		if(soundbank=='vibra'){
-			C1 	= soundManager.createSound({id: 'C1',	url: 'mp3s/vibra/c1.mp3'});
-			Db1 = soundManager.createSound({id: 'Db1',	url: 'mp3s/vibra/c_1.mp3'});
-			D1 	= soundManager.createSound({id: 'D1',	url: 'mp3s/vibra/d1.mp3'});
-			Eb1 = soundManager.createSound({id: 'Eb1',	url: 'mp3s/vibra/d_1.mp3'});
-			E1 	= soundManager.createSound({id: 'E1',	url: 'mp3s/vibra/e1.mp3'});
-			F1 	= soundManager.createSound({id: 'F1',	url: 'mp3s/vibra/f1.mp3'});
-			Gb1 = soundManager.createSound({id: 'Gb1',	url: 'mp3s/vibra/f_1.mp3'});
-			G1 	= soundManager.createSound({id: 'G1',	url: 'mp3s/vibra/g1.mp3'});
-			Ab1 = soundManager.createSound({id: 'Ab1',	url: 'mp3s/vibra/g_1.mp3'});
-			A1 	= soundManager.createSound({id: 'A1',	url: 'mp3s/vibra/a1.mp3'});
-			Bb1 = soundManager.createSound({id: 'Bb1',	url: 'mp3s/vibra/a_1.mp3'});
-			B1 	= soundManager.createSound({id: 'B1',	url: 'mp3s/vibra/b1.mp3'});
-			C2 	= soundManager.createSound({id: 'C2',	url: 'mp3s/vibra/c2.mp3'});
-			Db2 = soundManager.createSound({id: 'Db2',	url: 'mp3s/vibra/c_2.mp3'});
-			D2 	= soundManager.createSound({id: 'D2',	url: 'mp3s/vibra/d2.mp3'});
-			Eb2 = soundManager.createSound({id: 'Eb2',	url: 'mp3s/vibra/d_2.mp3'});
-			E2 	= soundManager.createSound({id: 'E2',	url: 'mp3s/vibra/e2.mp3'});
-			F2 	= soundManager.createSound({id: 'F2',	url: 'mp3s/vibra/f2.mp3'});
-			Gb2 = soundManager.createSound({id: 'Gb2',	url: 'mp3s/vibra/f_2.mp3'});
-			G2 	= soundManager.createSound({id: 'G2',	url: 'mp3s/vibra/g2.mp3'});
-			Ab2 = soundManager.createSound({id: 'Ab2',	url: 'mp3s/vibra/g_2.mp3'});
-			A2 	= soundManager.createSound({id: 'A2',	url: 'mp3s/vibra/a2.mp3'});
-			Bb2 = soundManager.createSound({id: 'Bb2',	url: 'mp3s/vibra/a_2.mp3'});
-			B2 	= soundManager.createSound({id: 'B2',	url: 'mp3s/vibra/b2.mp3'});		
-		} else if(soundbank=='guit'){
-			 C1 	= soundManager.createSound({id: 'C1',	url: 'mp3s/guit/c1.mp3'});
-			 Db1 	= soundManager.createSound({id: 'Db1',	url: 'mp3s/guit/c_1.mp3'});
-			 D1 	= soundManager.createSound({id: 'D1',	url: 'mp3s/guit/d1.mp3'});
-			 Eb1 	= soundManager.createSound({id: 'Eb1',	url: 'mp3s/guit/d_1.mp3'});
-			 E1 	= soundManager.createSound({id: 'E1',	url: 'mp3s/guit/e1.mp3'});
-			 F1 	= soundManager.createSound({id: 'F1',	url: 'mp3s/guit/f1.mp3'});
-			 Gb1 	= soundManager.createSound({id: 'Gb1',	url: 'mp3s/guit/f_1.mp3'});
-			 G1 	= soundManager.createSound({id: 'G1',	url: 'mp3s/guit/g1.mp3'});
-			 Ab1 	= soundManager.createSound({id: 'Ab1',	url: 'mp3s/guit/g_1.mp3'});
-			 A1 	= soundManager.createSound({id: 'A1',	url: 'mp3s/guit/a1.mp3'});
-			 Bb1 	= soundManager.createSound({id: 'Bb1',	url: 'mp3s/guit/a_1.mp3'});
-			 B1 	= soundManager.createSound({id: 'B1',	url: 'mp3s/guit/b1.mp3'});
-			 C2 	= soundManager.createSound({id: 'C2',	url: 'mp3s/guit/c2.mp3'});
-			 Db2 	= soundManager.createSound({id: 'Db2',	url: 'mp3s/guit/c_2.mp3'});
-			 D2 	= soundManager.createSound({id: 'D2',	url: 'mp3s/guit/d2.mp3'});
-			 Eb2 	= soundManager.createSound({id: 'Eb2',	url: 'mp3s/guit/d_2.mp3'});
-			 E2 	= soundManager.createSound({id: 'E2',	url: 'mp3s/guit/e2.mp3'});
-			 F2 	= soundManager.createSound({id: 'F2',	url: 'mp3s/guit/f2.mp3'});
-			 Gb2 	= soundManager.createSound({id: 'Gb2',	url: 'mp3s/guit/f_2.mp3'});
-			 G2 	= soundManager.createSound({id: 'G2',	url: 'mp3s/guit/g2.mp3'});
-			 Ab2 	= soundManager.createSound({id: 'Ab2',	url: 'mp3s/guit/g_2.mp3'});
-			 A2 	= soundManager.createSound({id: 'A2',	url: 'mp3s/guit/a2.mp3'});
-			 Bb2 	= soundManager.createSound({id: 'Bb2',	url: 'mp3s/guit/a_2.mp3'});
-			 B2 	= soundManager.createSound({id: 'B2',	url: 'mp3s/guit/b2.mp3'});		
-		} else if(soundbank=='piccata'){
-			 C1 	= soundManager.createSound({id: 'C1',	url: 'mp3s/piccata/1-toy_pizzicato.wav-().mp3'});
-			 Db1 	= soundManager.createSound({id: 'Db1',	url: 'mp3s/piccata/2-toy_pizzicato.wav-().mp3'});
-			 D1 	= soundManager.createSound({id: 'D1',	url: 'mp3s/piccata/3-toy_pizzicato.wav-().mp3'});
-			 Eb1 	= soundManager.createSound({id: 'Eb1',	url: 'mp3s/piccata/4-toy_pizzicato.wav-().mp3'});
-			 E1 	= soundManager.createSound({id: 'E1',	url: 'mp3s/piccata/5-toy_pizzicato.wav-().mp3'});
-			 F1 	= soundManager.createSound({id: 'F1',	url: 'mp3s/piccata/6-toy_pizzicato.wav-().mp3'});
-			 Gb1 	= soundManager.createSound({id: 'Gb1',	url: 'mp3s/piccata/7-toy_pizzicato.wav-().mp3'});
-			 G1 	= soundManager.createSound({id: 'G1',	url: 'mp3s/piccata/8-toy_pizzicato.wav-().mp3'});
-			 Ab1 	= soundManager.createSound({id: 'Ab1',	url: 'mp3s/piccata/9-toy_pizzicato.wav-().mp3'});
-			 A1 	= soundManager.createSound({id: 'A1',	url: 'mp3s/piccata/10-toy_pizzicato.wav-().mp3'});
-			 Bb1 	= soundManager.createSound({id: 'Bb1',	url: 'mp3s/piccata/11-toy_pizzicato.wav-().mp3'});
-			 B1 	= soundManager.createSound({id: 'B1',	url: 'mp3s/piccata/12-toy_pizzicato.wav-().mp3'});
-			 C2 	= soundManager.createSound({id: 'C2',	url: 'mp3s/piccata/13-toy_pizzicato.wav-().mp3'});
-			 Db2 	= soundManager.createSound({id: 'Db2',	url: 'mp3s/piccata/14-toy_pizzicato.wav-().mp3'});
-			 D2 	= soundManager.createSound({id: 'D2',	url: 'mp3s/piccata/15-toy_pizzicato.wav-().mp3'});
-			 Eb2 	= soundManager.createSound({id: 'Eb2',	url: 'mp3s/piccata/16-toy_pizzicato.wav-().mp3'});
-			 E2 	= soundManager.createSound({id: 'E2',	url: 'mp3s/piccata/17-toy_pizzicato.wav-().mp3'});
-			 F2 	= soundManager.createSound({id: 'F2',	url: 'mp3s/piccata/18-toy_pizzicato.wav-().mp3'});
-			 Gb2 	= soundManager.createSound({id: 'Gb2',	url: 'mp3s/piccata/19-toy_pizzicato.wav-().mp3'});
-			 G2 	= soundManager.createSound({id: 'G2',	url: 'mp3s/piccata/20-toy_pizzicato.wav-().mp3'});
-			 Ab2 	= soundManager.createSound({id: 'Ab2',	url: 'mp3s/piccata/21-toy_pizzicato.wav-().mp3'});
-			 A2 	= soundManager.createSound({id: 'A2',	url: 'mp3s/piccata/22-toy_pizzicato.wav-().mp3'});
-			 Bb2 	= soundManager.createSound({id: 'Bb2',	url: 'mp3s/piccata/23-toy_pizzicato.wav-().mp3'});
-			 B2 	= soundManager.createSound({id: 'B2',	url: 'mp3s/piccata/24-toy_pizzicato.wav-().mp3'});		
+			try{
+				eval(sounds[i].soundObj).destruct();
+			} catch(e){
+				//ignore... first run this will always be null. after that if it is null, 
+				//there is no soundObj to worry about.
+			}
+		}	
+		var urlpost = '.mp3';		
+		var mid;
+		if(soundbank=='picat'){
+			var urlpre = 'mp3s/piccata/picat0';										
+		} else if(soundbank=='guita'){
+			var urlpre = 'mp3s/guit/guita0';										
+		} else if(soundbank=='piano'){
+			var urlpre = 'mp3s/piano/piano0';										
+		} else if(soundbank=='vib'){
+			var urlpre = 'mp3s/vibra/vib0';										
+		} else if(soundbank=='fem'){
+			var urlpre = 'mp3s/femvox/fem0';										
+		} else if(soundbank=='old'){
+			var urlpre = 'mp3s/oldsine/old0';										
 		}
-		start();
+		
+		for(var i in sounds){
+			mid = i;
+			if(i<10){ mid = '0'+mid;}
+			sounds[i].soundObj = soundManager.createSound({id: sounds[i].note,	url: urlpre+mid+urlpost});
+		}
+		
+		if(doStart=='true'){
+			start();
+		}
 	}
 	
 	soundManager.ontimeout(function() {
